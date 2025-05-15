@@ -23,11 +23,22 @@ class Student:
     self.age = age 
     self.lectures = lectures
   
+  # print the full name
   def full_name(self):
     print(f"{self.first_name} {self.last_name}")
   
+  # Print the lecture
   def list_of_lectures(self):
-    list_of_lectures = []
-    list_of_lectures.append(self.lectures)
+    for lecture in self.lectures:
+      print(lecture)
+  
+  # Add new lecture to lecture list
+  def add_new_lecture(self, lecture):
+    self.lectures.append(lecture)
     
-
+  # Remove lecture from lectures list
+  def remove_lecture(self, lecture):
+    if lecture:
+      self.lectures.remove(lecture)
+    else:
+      print("This lecture not exist!!!")
