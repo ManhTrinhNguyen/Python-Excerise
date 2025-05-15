@@ -4,6 +4,8 @@
 
 - [Python Program Calculator](#Python-Program-Calculator)
 
+- [OOP And Class](#OOP-And-Class)
+
 ## Working with List
 
 **Using the following list:**
@@ -180,13 +182,43 @@ while user_input != "exit":
 print(f"The number of time user play {len(keep_track_times_of_play)}")
 ```
 
+## OOP And Class 
 
+In the program we need some way to define kind of the `blueprint` for a user, for all the Data and Function.
 
+I want to create a `blueprint` once and I can use the `blueprint` for all of those Data and function
 
+`Blueprint` for a User call `Class` and specific implementation of that `blueprint` is called `Object`
 
+In the Blueprint we don't have any specific value we just have Attribute . Actual value of those Attribute will be then set when we create an `Object` from the `blueprint` . However I need a function that will actually take those specific values and assign them to an object which is created from the blueprint and I will create from the blueprint that function called `def __init__(self)`
 
+`def __init__(self)` called a `constructor`. I have a blueprint and we are construncting object from that blueprint, the constructor function will help us construct objects from the `Class`
 
+`self` is refer to the Class it's in . Help us access and reference all the attribute and functions within that class  
 
+Imagine you are working in a university and need to write a program, which handles data of students, professors and lectures. To work with this data you create classes and objects
+
+`def __init__(self, email, name, password, current_job_title):` Those value must be provide to the Constructur whenever I creating a new object
+
+Then now I have to create function in the Class that any User in application can do, any user can change the password or change their job title and logically when change password happen by user, user provides a new password in order to override the old one .
+
+So the flow will be -> Object will be created for that specific user so the initial data for that Object will be provided so we will have the user, email, name, password and current job title
+
+a) Create a Student class:
+
+with properties:
+
+ - first name
+ - last name
+ - age
+ - lectures they attend
+   
+with methods:
+
+ - can print the full name
+ - can list the lectures, which the student attends
+ - can add new lectures to the lectures list (attend a new lecture)
+ - can remove lectures from the lectures list (leave a lecture)
 
 
 
