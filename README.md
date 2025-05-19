@@ -13,6 +13,8 @@
    - [Create a Lecture class](#Create-a-Lecture-class)
  
    - [Inheritance](#Inheritance)
+ 
+- [Working with Spreadsheets](#Working-with-Spreadsheets) 
 
 ## Working with List
 
@@ -422,6 +424,50 @@ class Professor(Person):
     else:
       print(f"This subject {subject} is not exist!!!")
 ```
+
+## Working with Spreadsheets
+
+Write a program that:
+
+- reads the provided spreadsheet file `"employees.xlsx"` with the following information/columns: "name", "years of experience", "job title", "date of birth"
+  
+- creates a new spreadsheet file `"employees_sorted.xlsx"` with following info/columns: `"name"`, `"years of experience"`, where the years of experience is sorted in descending order: so the employee name with the most experience in years is on top.
+
+#### Install package 
+
+Now I want to read  file `"employees.xlsx"` so basically let our Python program read the contents of that file bcs I want to write a logic base on the values that are in this inventory file, I want to calculate stuff
+
+
+There is a external package that allow me to work with spreadsheets specificly . Much more function and much easier to use . That Package call `openpyxl`
+
+
+To install `openpyxl`:
+
+ - I need to create Virtual ENV in Python `venv` : `python3 -m venv python-exercise`
+
+ - Activate `venv`: `source python-exercise/bin/activate`
+
+ - Install `openyxl` : `pip install openpyxl`
+
+#### Implementation
+
+`openpyxl.load_workbook()` is a function in order to read my spreadsheet file .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
