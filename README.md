@@ -14,7 +14,16 @@
  
    - [Inheritance](#Inheritance)
  
-- [Working with Spreadsheets](#Working-with-Spreadsheets) 
+- [Working with Spreadsheets](#Working-with-Spreadsheets)
+
+- [Python Automation](#Python-Automation)
+
+   - [Working with Subnets in AWS](#Working-with-Subnets-in-AWS)
+ 
+   - [Boto3 Configuration](#Boto3-Configuration)
+ 
+   - [Working with IAM in AWS](#Working-with-IAM-in-AWS)
+
 
 ## Working with List
 
@@ -453,16 +462,113 @@ To install `openpyxl`:
 
 `openpyxl.load_workbook()` is a function in order to read my spreadsheet file .
 
+## Python Automation 
+
+I want to use Python to talk to external Application 
+
+!!! NOTE : Communication between 2 Applications, in this case Python Application and AWS usually happens using a HTTP Protocol .
+
+Python has a library called `Boto3` that makes it possible to work with `AWS resources` .
+
+- I can create resources, configure resources fetch the data about them and do all sorts operations on my AWS account
+
+To install Boto3: `pip install boto3` (Make sure to create VENV first) 
+
+Boto3 Documents : (https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
+
+####  Boto3 Configuration
+
+Just like we did with Terraform I want to connect to AWS account and authenticate with our `AWS User` .
+
+We can configure using AWS configure command if I have aws CLI installed locally, which sets four values (aws_access_id, aws_access_secret_key, region, output format)
+
+`Boto3` will automatically take these credentiasl and the default region information to connect to AWS and authenticate with it . That mean I do not need to do anything
+
+My AWS credentials live here : `ls ~/.aws`
+
+### Working with Subnets in AWS
+
+In this task a I will:
+
+- Get all the subnets in your default region
+
+- Print the subnet Ids
+
+**Get all the subnets in your default region**
+
+First i need to import boto3 `import boto3`
+
+Basically in Boto3 I have a `Client` for EC2 that will be able to connect to AWS and do something for EC2 related components . And that is why we gonna create a Client from EC2 :` client = boto3.client('ec2')`
+
+To get all the subnets in my default region I will use `describe_subnets` in my `EC2 Client` (https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/client/describe_subnets.html)
+
+```
+import boto3
+
+client = boto3.client('ec2')
+
+# Get all the subnets in your default region and print out all subnets id 
+
+response = client.describe_subnets()
+
+# I will iterate through to Subnet list and get the subnet ID 
+# I can also create a list and append all the subnet id into it 
+
+subnets_id_list = []
+
+for subnet in response['Subnets']:
+  subnets_id_list.append(subnet["SubnetId"])
+
+print(subnets_id_list)
+```
+
+### Working with IAM in AWS 
+
+This document is use to work with IAM (https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/iam.html#client)
+
+I also have a `Client` IAM . 
+
+**Project summary** 
+
+Get all the IAM users in your AWS account
+
+For each user, print out the name of the user and when they were last active (hint: Password Last Used attribute)
+
+Print out the user ID and name of the user who was active the most recently
+
+**Implementation**
+
+To get all IAM users I will use `list_users`  (https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/iam/client/list_users.html)
 
 
+```
+import boto3
 
+client = boto3.client('iam')
 
+# Get all the IAM users in your AWS account
+response = client.list_users()
 
+## I will iterate through the user list
+for user in response['Users']:
 
+# For each user, print out the name of the user and when they were last active (hint: Password Last Used attribute)
+  # print(f"UserName: {user["UserName"]}")
+  # print(f"Last Active: {user.get('PasswordLastUsed', 'Never used')}")
+  
+# Print out the user ID and name of the user who was active the most recently
+## First I will create new user list 
+  new_user_list = []
+## Check if PasswordLastUsed in user 
+  if "PasswordLastUsed" in user:
+    ## I will append user that have PasswordLastUsed to new user list
+    new_user_list.append(user)
+    ## Then I will sort the PasswordLastUsed descending to get the most recent user
+    most_recent_user = max(new_user_list, key=lambda u: u['PasswordLastUsed'])
+    ## Then now I will print out the most recent user name
+    print(most_recent_user["UserName"])
 
-
-
-
+```
 
 
 
