@@ -25,7 +25,7 @@ class Student:
   
   # print the full name
   def full_name(self):
-    print(f"{self.first_name} {self.last_name}")
+    print(f"{self.first_name} {self.last_name}")  
   
   # Print the lecture
   def list_of_lectures(self):
@@ -38,7 +38,13 @@ class Student:
     
   # Remove lecture from lectures list
   def remove_lecture(self, lecture):
-    if lecture:
+    if lecture in self.lectures:
       self.lectures.remove(lecture)
     else:
       print("This lecture not exist!!!")
+
+
+tim = Student("Tim", "Nguyen", 27, ["computer science"])
+
+print(tim.full_name())
+print(tim.list_of_lectures())
