@@ -6,6 +6,14 @@
 
 - [OOP And Class](#OOP-And-Class)
 
+   - [Create a Student class](#Create-a-Student-class)
+ 
+   - [Create a Professor class](#Create-a-Professor-class)
+ 
+   - [Create a Lecture class](#Create-a-Lecture-class)
+ 
+   - [Inheritance](#Inheritance)
+
 ## Working with List
 
 **Using the following list:**
@@ -204,7 +212,7 @@ Then now I have to create function in the Class that any User in application can
 
 So the flow will be -> Object will be created for that specific user so the initial data for that Object will be provided so we will have the user, email, name, password and current job title
 
-a) Create a Student class:
+#### Create a Student class
 
 with properties:
 
@@ -220,6 +228,200 @@ with methods:
  - can add new lectures to the lectures list (attend a new lecture)
  - can remove lectures from the lectures list (leave a lecture)
 
+```
+class Student:
+  def __init__(self, first_name, last_name, age, lectures):
+    self.first_name = first_name
+    self.last_name = last_name
+    self.age = age 
+    self.lectures = lectures
+  
+  # print the full name
+  def full_name(self):
+    print(f"{self.first_name} {self.last_name}")
+  
+  # Print the lecture
+  def list_of_lectures(self):
+    for lecture in self.lectures:
+      print(lecture)
+  
+  # Add new lecture to lecture list
+  def add_new_lecture(self, lecture):
+    self.lectures.append(lecture)
+    
+  # Remove lecture from lectures list
+  def remove_lecture(self, lecture):
+    if lecture:
+      self.lectures.remove(lecture)
+    else:
+      print("This lecture not exist!!!")
+
+
+tim = Student("Tim", "Nguyen", 27, ["computer science"])
+
+print(tim.full_name())
+print(tim.list_of_lectures())
+```
+
+#### Create a Professor class
+
+with properties:
+
+- first name
+- last name
+- age
+- subjects they teach
+- with methods:
+
+- can print the full name
+- can list the subjects they teach
+- can add new subjects to the list
+- can remove subjects from the list
+
+```
+class Professor:
+  def __init__(self, first_name, last_name, age, subjects):
+    self.first_name = first_name
+    self.last_name = last_name
+    self.age = age
+    self.subjects = subjects
+  
+  # Print full name
+  def full_name(self):
+    print(f"{self.first_name} {self.last_name}")
+
+  # Print the subject Professor teac
+  def list_of_subjects(self):
+    for subject in self.subjects:
+      print(subject)
+
+  # Add new subject to subjects list
+  def add_new_subject(self, subject):
+    self.subjects.append(subject)
+    
+  # Remove lecture from lectures list
+  def remove_subject(self, subject):
+    if subject in self.subjects:
+      self.subjects.remove(subject)
+    else:
+      print(f"This subject {subject} is not exist!!!")
+
+kelly = Professor("Kelly", "Le", 23, ["Dentist"])
+
+print(kelly.full_name())
+```
+
+### Create a Lecture class
+
+with properties:
+
+- name
+- max number of students
+- duration
+- list of professors giving this lecture
+  
+with methods:
+
+- printing the name and duration of the lecture
+- adding professors to the list of professors giving this lecture
+
+```
+class Lecture:
+  def __init__(self, name, max_number_students, duration, professors_on_this_lecture):
+    self.name = name
+    self.max_number_students =  max_number_students
+    self.duration = duration
+    self.professors_on_this_lecture = professors_on_this_lecture
+  
+  # printing the name and duration of the lecture
+  def name_and_duration(self):
+    print(f"{self.name}")
+    print(f"{self.duration}")
+
+  # adding professors to the list of professors giving this lecture
+  def add_professor_to_lecture(self, professor):
+    if professor not in self.professors_on_this_lecture:
+      self.professors_on_this_lecture.append(professor)
+      print(self.professors_on_this_lecture)
+    else:
+      print(f"This Professor {professor} is already in the list")
+
+
+computer = Lecture("computer science", 24, 100, ["Tim", "Kelly"])
+
+print(computer.add_professor_to_lecture("Kelly"))
+```
+
+#### Inheritance
+
+As both students and professors have a first name, last name and age, you think of a cleaner solution:
+
+Inheritance allows us to define a class that inherits all the methods and properties from another class.
+
+- Create a Person class, which is the parent class of Student and Professor classes
+- This Person class has the following properties: "first_name", "last_name" and "age"
+- and following method: "print_name", which can print the full name
+- So you don't need the properties and the method in the other two classes. You can easily inherit these.
+- Change Student and Professor classes to inherit "first_name", "last_name", "age" properties and "print_name" method from the Person class
+
+```
+class Person:
+  def __init__(self, first_name, last_name, age):
+    self.first_name = first_name
+    self.last_name = last_name
+    self.age = age
+
+  def full_name(self):
+    print(f"{self.first_name} {self.last_name}")
+
+
+class Student(Person):
+  def __init__(self, first_name, last_name, age, lectures):
+    super().__init__(first_name, last_name, age)
+    self.lectures = lectures
+
+  # Print the lecture
+  def list_of_lectures(self):
+    for lecture in self.lectures:
+      print(lecture)
+  
+  # Add new lecture to lecture list
+  def add_new_lecture(self, lecture):
+    self.lectures.append(lecture)
+    
+  # Remove lecture from lectures list
+  def remove_lecture(self, lecture):
+    if lecture in self.lectures:
+      self.lectures.remove(lecture)
+    else:
+      print("This lecture not exist!!!")
+
+
+class Professor(Person):
+  def __init__(self, first_name, last_name, age, subjects):
+    super().__init__(first_name, last_name, age)
+    self.subjects = subjects
+  
+  # Print full name
+  def full_name(self):
+    print(f"{self.first_name} {self.last_name}")
+
+  # Print the subject Professor teac
+  def list_of_subjects(self):
+    for subject in self.subjects:
+      print(subject)
+
+  # Add new subject to subjects list
+  def add_new_subject(self, subject):
+    self.subjects.append(subject)
+    
+  # Remove lecture from lectures list
+  def remove_subject(self, subject):
+    if subject in self.subjects:
+      self.subjects.remove(subject)
+    else:
+      print(f"This subject {subject} is not exist!!!")
+```
 
 
 
