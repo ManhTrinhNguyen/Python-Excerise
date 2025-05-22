@@ -528,47 +528,77 @@ This document is use to work with IAM (https://boto3.amazonaws.com/v1/documentat
 
 I also have a `Client` IAM . 
 
-**Project summary** 
-
-Get all the IAM users in your AWS account
-
-For each user, print out the name of the user and when they were last active (hint: Password Last Used attribute)
-
-Print out the user ID and name of the user who was active the most recently
-
-**Implementation**
-
-To get all IAM users I will use `list_users`  (https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/iam/client/list_users.html)
-
-
 ```
+# Import the boto3 library to interact with AWS services
 import boto3
 
+# Create an IAM client using boto3
 client = boto3.client('iam')
 
-# Get all the IAM users in your AWS account
+# List all IAM users in the AWS account
 response = client.list_users()
 
-## I will iterate through the user list
+# Initialize an empty list to store users who have logged in before
+new_user_list = []
+
+# Iterate through each user in the list
 for user in response['Users']:
 
-# For each user, print out the name of the user and when they were last active (hint: Password Last Used attribute)
-  # print(f"UserName: {user["UserName"]}")
-  # print(f"Last Active: {user.get('PasswordLastUsed', 'Never used')}")
-  
-# Print out the user ID and name of the user who was active the most recently
-## First I will create new user list 
-  new_user_list = []
-## Check if PasswordLastUsed in user 
-  if "PasswordLastUsed" in user:
-    ## I will append user that have PasswordLastUsed to new user list
-    new_user_list.append(user)
-    ## Then I will sort the PasswordLastUsed descending to get the most recent user
-    most_recent_user = max(new_user_list, key=lambda u: u['PasswordLastUsed'])
-    ## Then now I will print out the most recent user name
-    print(most_recent_user["UserName"])
+  # For each user, print out the name of the user and when they were last active (hint: Password Last Used attribute)
+  print(f"UserName: {user["UserName"]}")
+  print(f"Last Active: {user.get('PasswordLastUsed', 'Never used')}")
 
+
+  # Check if the user has ever logged in (i.e., has 'PasswordLastUsed' attribute)
+  if "PasswordLastUsed" in user:
+      # Add user to the list of users who have logged in
+      new_user_list.append(user)
+
+# If the list is not empty, find the most recently active user
+if new_user_list:
+    # Use max() to find the user with the most recent 'PasswordLastUsed' timestamp
+    most_recent_user = max(new_user_list, key=lambda u: u['PasswordLastUsed'])
+
+    # Print the username of the most recently active user
+    print(f"Most recently active user: {most_recent_user['UserName']}")
+else:
+    print("No users have logged in.")
+
+   
 ```
+
+#### AWS IAM User Activity Tracker Python and Boto3
+
+This Python script uses the **Boto3** AWS SDK to list IAM users in your AWS account and determine **who was the most recently active user** based on the `PasswordLastUsed` attribute.
+
+#### Features
+
+- Lists all IAM users in your account.
+- Filters only those users who have logged in at least once.
+- Identifies and prints the **most recently active IAM user**.
+
+#### Requirements
+
+- Python 3.x
+- `boto3` package
+- AWS credentials configured via:
+  - `~/.aws/credentials`
+  - or environment variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`)
+
+Install dependencies: `pip install boto3`
+
+#### Code Explanation
+
+Uses `boto3.client('iam')` to interact with IAM.
+
+Calls `list_users()` to fetch all IAM users.
+
+Filters users who have the `PasswordLastUsed` field.
+
+Finds the most recently active user using `max()` and `lambda`.
+
+Prints out that user’s name.
+
 
 
 
